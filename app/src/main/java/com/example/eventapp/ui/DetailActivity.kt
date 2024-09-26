@@ -1,10 +1,13 @@
 package com.example.eventapp.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
 import com.bumptech.glide.Glide
 import com.example.eventapp.data.response.ListEventsItem
 import com.example.eventapp.databinding.ActivityDetailBinding
@@ -40,6 +43,12 @@ class DetailActivity : AppCompatActivity() {
                     .load(event.mediaCover)
                     .into(imageView)
             }
+        }
+
+        binding.fab.setOnClickListener {
+            val builder = CustomTabsIntent.Builder()
+            val customTabsIntent = builder.build()
+            customTabsIntent.launchUrl(this, Uri.parse(event?.link))
         }
     }
 
