@@ -1,5 +1,6 @@
 package com.example.eventapp.ui
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -31,6 +32,11 @@ class UpcomingAdapter : ListAdapter<ListEventsItem, UpcomingAdapter.MyViewHolder
                 .transform(RoundedCorners(16))
                 .into(binding.imageView)
             binding.chip.text = "${event.category}"
+            binding.root.setOnClickListener {
+                val intent = Intent(binding.root.context, DetailActivity::class.java)
+                intent.putExtra("EXTRA_EVENT", event)
+                binding.root.context.startActivity(intent)
+            }
         }
     }
 

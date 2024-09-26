@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.DetailActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:contentScrim="@color/white"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:title=" "
+            app:titleCollapseMode="scale">
+
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="Cover"
+                android:fitsSystemWindows="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_launcher_background" />
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:layout_collapseMode="pin" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/remaining_quota_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remaining Quota: 1490"
+                    android:textColor="#ff5484"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/begin_time_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="Sep 27, 2024"
+                    android:textColor="#ff5484"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[Offline Event] Baparekraf Developer Day 2024"
+                android:textAlignment="textStart"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/owner_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Diselenggarakan oleh: Kementerian Pariwisata dan Ekonomi Kreatif Republik Indonesia"
+                android:textAlignment="textStart" />
+
+            <TextView
+                android:id="@+id/summary_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Baparekraf Developer Day 2024 kembali hadir secara offline di Kota Yogyakarta, Daerah Istimewa Yogyakarta." />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="8dp"
+                android:background="@android:color/darker_gray" />
+
+
+            <TextView
+                android:id="@+id/description_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu tristique urna, in mollis orci. Fusce rutrum felis a sem commodo mollis. Sed ut semper odio. Phasellus sit amet magna sed urna ultrices maximus scelerisque sed erat. Suspendisse eu rutrum quam. Proin ultrices, arcu dapibus congue vulputate, felis ligula interdum enim, ac luctus ipsum metus a enim. Nullam sodales lacus in est egestas malesuada. Sed porta ipsum augue. Ut sed tempus urna. Nunc bibendum maximus nisi, ut porttitor ipsum tristique vitae. Donec quis mauris faucibus, scelerisque justo ut, posuere urna. Nam velit massa, ornare a dictum sed, congue in nunc. Ut sed dignissim elit, sit amet hendrerit dui. Phasellus quis metus risus. Sed posuere felis posuere tristique maximus. Nulla ultrices, risus sit amet dignissim luctus, nulla diam gravida lacus, hendrerit euismod tellus lacus et leo. Quisque vel tortor massa. Ut sem lacus, viverra quis mollis ac, faucibus eget ligula. Ut nec suscipit nunc. Fusce venenatis mollis massa, id blandit mi maximus laoreet. Curabitur at diam orci. Etiam euismod urna in blandit interdum. Suspendisse vel molestie nulla. Suspendisse iaculis ipsum vulputate arcu dictum gravida. Pellentesque dui odio, dignissim ut vulputate non, vulputate et lectus. Phasellus auctor augue ut nulla varius feugiat nec semper dolor. Duis elementum ut nulla ac placerat. Vivamus volutpat aliquet mi, id accumsan velit vehicula a. Suspendisse at dapibus enim. Donec fringilla faucibus velit, nec laoreet velit suscipit vitae. Integer condimentum mollis dolor sit amet sagittis. Aenean vestibulum interdum velit. Fusce tortor nulla, dapibus quis quam in, semper finibus nisl. Ut a velit luctus, efficitur diam in, laoreet libero. In nisl ex, vulputate ac augue at, gravida pretium tortor. Maecenas imperdiet luctus enim sit amet congue. Nulla at tortor placerat, lacinia dolor sed, accumsan velit. Proin volutpat lectus ut massa eleifend, a ornare sapien varius. Praesent scelerisque lectus massa, nec pharetra purus hendrerit eget. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis quis eleifend neque. In faucibus urna ac sem maximus, nec vestibulum nisl eleifend. Vestibulum congue lacinia pretium. Nullam sit amet neque ut ipsum malesuada convallis. Etiam efficitur nisi et nulla vestibulum, at tincidunt urna maximus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur eget orci id enim dapibus cursus in nec ipsum. Sed tincidunt viverra justo, et blandit nibh tincidunt vel. Quisque leo mi, finibus eu augue non, pretium volutpat purus. Vivamus nunc eros, molestie viverra sagittis sit amet, commodo eu massa. Integer commodo id nibh accumsan fringilla. Cras fermentum nisi sed magna accumsan consequat. Pellentesque fringilla dictum magna quis elementum." />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
