@@ -18,8 +18,8 @@ class UpcomingAdapter : ListAdapter<ListEventsItem, UpcomingAdapter.MyViewHolder
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val review = getItem(position)
-        holder.bind(review)
+        val event = getItem(position)
+        holder.bind(event)
     }
 
     class MyViewHolder(val binding: ItemUpcomingBinding) : RecyclerView.ViewHolder(binding.root) {
