@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.DetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -41,6 +42,11 @@
                 app:layout_collapseMode="pin" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_grey" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -131,6 +137,7 @@
         android:baselineAlignBottom="false"
         android:contentDescription="Visit Webpage"
         android:src="@drawable/ic_webpage"
+        android:tint="@color/onfab"
         app:layout_anchor="@id/appbar_layout"
         app:layout_anchorGravity="bottom|end" />
 

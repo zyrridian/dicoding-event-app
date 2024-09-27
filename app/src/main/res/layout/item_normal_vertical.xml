@@ -7,7 +7,8 @@
     android:layout_margin="8dp"
     android:background="?attr/selectableItemBackground"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    app:cardBackgroundColor="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -55,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="false"
                 android:textSize="12sp"
+                app:chipBackgroundColor="@color/white"
                 app:chipEndPadding="4dp"
                 app:chipMinTouchTargetSize="0dp"
                 app:chipStartPadding="4dp"
