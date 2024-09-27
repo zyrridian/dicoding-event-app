@@ -58,4 +58,7 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.browser)
+    implementation(libs.lottie)
+    implementation(libs.shimmer)
+
 }

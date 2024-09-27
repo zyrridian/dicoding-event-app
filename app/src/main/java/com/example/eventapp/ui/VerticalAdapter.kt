@@ -9,30 +9,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eventapp.data.response.ListEventsItem
-import com.example.eventapp.databinding.ItemNormalHorizontalBinding
-import com.example.eventapp.databinding.ItemShimmerHorizontalBinding
+import com.example.eventapp.databinding.ItemShimmerVerticalBinding
+import com.example.eventapp.databinding.ItemNormalVerticalBinding
 
-class HorizontalAdapter(private var isLoading: Boolean = true) :
+class VerticalAdapter(private var isLoading: Boolean = true) :
     ListAdapter<ListEventsItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
-
     override fun getItemViewType(position: Int): Int {
         return if (isLoading) VIEW_TYPE_SHIMMER else VIEW_TYPE_DATA
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == VIEW_TYPE_SHIMMER) {
-            val binding = ItemShimmerHorizontalBinding.inflate(
+            val binding = ItemShimmerVerticalBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             )
             ShimmerViewHolder(binding)
         } else {
-            val binding = ItemNormalHorizontalBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+            val binding =
+                ItemNormalVerticalBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
             MyViewHolder(binding)
         }
     }
@@ -48,18 +48,19 @@ class HorizontalAdapter(private var isLoading: Boolean = true) :
         return if (isLoading) 5 else super.getItemCount()
     }
 
-    class ShimmerViewHolder(private val binding: ItemShimmerHorizontalBinding) :
+    class ShimmerViewHolder(private val binding: ItemShimmerVerticalBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    class MyViewHolder(private val binding: ItemNormalHorizontalBinding) :
+    class MyViewHolder(private val binding: ItemNormalVerticalBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(event: ListEventsItem) {
             binding.titleTextView.text = event.name
-            binding.summaryTextView.text = event.summary
+            binding.ownerTextView.text = event.ownerName
             Glide.with(binding.root.context)
                 .load(event.imageLogo)
                 .transform(RoundedCorners(16))
                 .into(binding.imageView)
+            binding.chip.text = "${event.category}"
             binding.root.setOnClickListener {
                 val intent = Intent(binding.root.context, DetailActivity::class.java)
                 intent.putExtra("EXTRA_EVENT", event)

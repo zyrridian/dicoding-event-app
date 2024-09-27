@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:shimmer_auto_start="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingVertical="16dp">
+
+        <View
+            android:id="@+id/owner_text_view"
+            android:layout_width="0dp"
+            android:layout_height="18dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_shimmer"
+            android:maxLines="1"
+            app:layout_constraintEnd_toStartOf="@id/image_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="oleh: Kementerian Pariwisata dan Ekonomi Kreatif Republik Indonesia" />
+
+        <View
+            android:id="@+id/title_text_view"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_shimmer"
+            app:layout_constraintEnd_toStartOf="@id/image_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/owner_text_view"
+            tools:text="[Offline Event] Baparekraf Developer Day 2024" />
+
+        <View
+            android:id="@+id/chip"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_shimmer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/image_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/image_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/bg_shimmer"
+            android:contentDescription="@string/thumbnail_event_image"
+            android:src="@drawable/ic_launcher_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.facebook.shimmer.ShimmerFrameLayout>
