@@ -1,4 +1,4 @@
-package com.example.eventapp.ui
+package com.example.eventapp.ui.dialogs
 
 import android.app.AlertDialog
 import android.content.Context

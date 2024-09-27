@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".FinishedFragment">
+    tools:context=".ui.fragments.FinishedFragment"
+    tools:ignore="Overdraw">
 
     <com.google.android.material.search.SearchBar
         android:id="@+id/search_bar"
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        android:hint="Type something..."
+        android:hint="@string/type_something"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +24,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:backgroundTint="@color/white"
-        android:hint="Type something..."
+        android:hint="@string/type_something"
         app:layout_anchor="@id/search_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,5 +1,6 @@
-package com.example.eventapp.ui
+package com.example.eventapp.ui.adapters
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eventapp.data.response.ListEventsItem
 import com.example.eventapp.databinding.ItemShimmerVerticalBinding
 import com.example.eventapp.databinding.ItemNormalVerticalBinding
+import com.example.eventapp.ui.activities.DetailActivity
 
 class VerticalAdapter(private var isLoading: Boolean = true) :
     ListAdapter<ListEventsItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
@@ -48,7 +50,7 @@ class VerticalAdapter(private var isLoading: Boolean = true) :
         return if (isLoading) 5 else super.getItemCount()
     }
 
-    class ShimmerViewHolder(private val binding: ItemShimmerVerticalBinding) :
+    class ShimmerViewHolder(binding: ItemShimmerVerticalBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     class MyViewHolder(private val binding: ItemNormalVerticalBinding) :
@@ -93,6 +95,7 @@ class VerticalAdapter(private var isLoading: Boolean = true) :
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setLoadingState(isLoading: Boolean) {
         this.isLoading = isLoading
         notifyDataSetChanged()

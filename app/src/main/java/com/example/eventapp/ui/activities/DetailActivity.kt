@@ -1,6 +1,5 @@
-package com.example.eventapp.ui
+package com.example.eventapp.ui.activities
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.Html
@@ -9,6 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import com.bumptech.glide.Glide
+import com.example.eventapp.R
 import com.example.eventapp.data.response.ListEventsItem
 import com.example.eventapp.databinding.ActivityDetailBinding
 import java.text.SimpleDateFormat
@@ -32,8 +32,8 @@ class DetailActivity : AppCompatActivity() {
         event?.let {
             binding.apply {
                 titleTextView.text = event.name
-                ownerTextView.text = "Organized by: ${event.ownerName}"
-                remainingQuotaTextView.text = "Remaining quota: ${event.quota}"
+                ownerTextView.text = getString(R.string.organized_by, it.ownerName)
+                remainingQuotaTextView.text = getString(R.string.remaining_quota, it.quota.toString())
                 beginTimeTextView.text = formatDate(event.beginTime)
                 summaryTextView.text = event.summary
                 descriptionTextView.text =

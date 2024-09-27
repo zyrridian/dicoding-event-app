@@ -1,4 +1,4 @@
-package com.example.eventapp.ui
+package com.example.eventapp.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.example.eventapp.data.response.EventResponse
 import com.example.eventapp.data.response.ListEventsItem
 import com.example.eventapp.data.retrofit.ApiConfig
-import com.example.eventapp.utils.Event
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,17 +16,11 @@ class MainViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _isEmpty = MutableLiveData<Boolean>()
-    val isEmpty: LiveData<Boolean> = _isEmpty
-
     private val _listUpcoming = MutableLiveData<List<ListEventsItem>?>()
     val listUpcoming: LiveData<List<ListEventsItem>?> = _listUpcoming
 
     private val _listFinished = MutableLiveData<List<ListEventsItem>?>()
     val listFinished: LiveData<List<ListEventsItem>?> = _listFinished
-
-    private val _dialog = MutableLiveData<Event<String>>()
-    val dialog: LiveData<Event<String>> = _dialog
 
     companion object {
         private const val TAG = "UpcomingViewModel"
@@ -50,7 +43,6 @@ class MainViewModel : ViewModel() {
 
     fun findUpcoming() {
 //        if (_listEvents.value != null) return // Skip if data already exists
-        _isEmpty.value = true
         _isLoading.value = true
         val client = ApiConfig.getApiService().getEvents()
         client.enqueue(object : Callback<EventResponse> {
@@ -63,7 +55,6 @@ class MainViewModel : ViewModel() {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         _listUpcoming.value = responseBody.listEvents
-                        _isEmpty.value = false
                     }
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")

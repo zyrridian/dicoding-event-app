@@ -1,4 +1,4 @@
-package com.example.eventapp
+package com.example.eventapp.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -7,12 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.eventapp.ui.activities.MainActivity
 import com.example.eventapp.databinding.FragmentHomeBinding
-import com.example.eventapp.ui.HorizontalAdapter
-import com.example.eventapp.ui.VerticalAdapter
-import com.example.eventapp.ui.MainViewModel
+import com.example.eventapp.ui.adapters.HorizontalAdapter
+import com.example.eventapp.viewmodels.MainViewModel
+import com.example.eventapp.ui.adapters.VerticalAdapter
 
 class HomeFragment : Fragment(), MainActivity.NetworkChangeListener {
 
@@ -25,7 +25,7 @@ class HomeFragment : Fragment(), MainActivity.NetworkChangeListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -52,26 +52,26 @@ class HomeFragment : Fragment(), MainActivity.NetworkChangeListener {
     }
 
     private fun setupAllNetworkData() {
-        viewModel.listUpcoming.observe(viewLifecycleOwner, Observer { listEvents ->
+        viewModel.listUpcoming.observe(viewLifecycleOwner) { listEvents ->
             listEvents?.let {
                 // Stop shimmer and submit the data
                 horizontalAdapter.setLoadingState(false)
                 horizontalAdapter.submitList(it.take(5))
             }
-        })
-        viewModel.listFinished.observe(viewLifecycleOwner, Observer { listEvents ->
+        }
+        viewModel.listFinished.observe(viewLifecycleOwner) { listEvents ->
             listEvents?.let {
                 // Stop shimmer and submit the data
                 verticalAdapter.setLoadingState(false)
                 verticalAdapter.submitList(it.take(5))
             }
-        })
-        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+        }
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             // Toggle shimmer effect
 //            upcomingAdapter.setLoadingState(isLoading)
 //            horizontalAdapter.setLoadingState(isLoading)
-        })
+        }
 //        viewModel.isEmpty.observe(viewLifecycleOwner, Observer { isEmpty ->
 //            horizontalAdapter.setLoadingState(isEmpty)
 //        })

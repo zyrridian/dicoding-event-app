@@ -1,4 +1,4 @@
-package com.example.eventapp
+package com.example.eventapp.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -7,11 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.eventapp.ui.activities.MainActivity
 import com.example.eventapp.databinding.FragmentUpcomingBinding
-import com.example.eventapp.ui.VerticalAdapter
-import com.example.eventapp.ui.MainViewModel
+import com.example.eventapp.viewmodels.MainViewModel
+import com.example.eventapp.ui.adapters.VerticalAdapter
 
 class UpcomingFragment : Fragment(), MainActivity.NetworkChangeListener {
 
@@ -23,7 +23,7 @@ class UpcomingFragment : Fragment(), MainActivity.NetworkChangeListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentUpcomingBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -63,15 +63,15 @@ class UpcomingFragment : Fragment(), MainActivity.NetworkChangeListener {
     }
 
     private fun setupAllNetworkData() {
-        viewModel.listUpcoming.observe(viewLifecycleOwner, Observer { listEvents ->
+        viewModel.listUpcoming.observe(viewLifecycleOwner) { listEvents ->
             listEvents?.let {
                 verticalAdapter.setLoadingState(false)
                 verticalAdapter.submitList(it)
             }
-        })
-        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+        }
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        })
+        }
     }
 
     override fun onNetworkChanged() {

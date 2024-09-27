@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.eventapp.HomeFragment"
+        android:name="com.example.eventapp.ui.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_upcoming"
-        android:name="com.example.eventapp.UpcomingFragment"
+        android:name="com.example.eventapp.ui.fragments.UpcomingFragment"
         android:label="fragment_upcoming"
         tools:layout="@layout/fragment_upcoming" />
 
     <fragment
         android:id="@+id/navigation_finished"
-        android:name="com.example.eventapp.FinishedFragment"
+        android:name="com.example.eventapp.ui.fragments.FinishedFragment"
         android:label="fragment_finished"
         tools:layout="@layout/fragment_finished" />
 

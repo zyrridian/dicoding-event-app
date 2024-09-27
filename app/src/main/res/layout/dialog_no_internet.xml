@@ -23,7 +23,7 @@
         android:id="@+id/tv_no_internet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No Internet Connection"
+        android:text="@string/no_internet_connection"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Retry"
+        android:text="@string/retry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_no_internet" />
@@ -46,11 +46,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        app:tint="@color/black"
         android:clickable="true"
+        android:contentDescription="@string/close_button"
+        android:focusable="true"
         android:padding="4dp"
         android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/black" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

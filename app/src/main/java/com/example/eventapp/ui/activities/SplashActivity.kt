@@ -1,4 +1,4 @@
-package com.example.eventapp.ui
+package com.example.eventapp.ui.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -8,7 +8,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.eventapp.MainActivity
 import com.example.eventapp.R
 
 @SuppressLint("CustomSplashScreen")

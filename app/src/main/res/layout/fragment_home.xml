@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".HomeFragment">
+    tools:context=".ui.fragments.HomeFragment"
+    tools:ignore="Overdraw">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_layout"
@@ -63,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="32dp"
-                android:text="Upcoming Events"
+                android:text="@string/upcoming_events"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -80,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="24dp"
-                android:text="Finished Events"
+                android:text="@string/finished_events"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 

@@ -1,4 +1,4 @@
-package com.example.eventapp
+package com.example.eventapp.ui.activities
 
 import android.content.IntentFilter
 import android.net.ConnectivityManager
@@ -7,8 +7,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.eventapp.R
 import com.example.eventapp.databinding.ActivityMainBinding
-import com.example.eventapp.ui.NetworkDialog
+import com.example.eventapp.ui.dialogs.NetworkDialog
 import com.example.eventapp.utils.NetworkUtil
 import com.example.eventapp.utils.NetworkUtil.isNetworkAvailable
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -55,15 +56,15 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(networkChangeReceiver, filter)
     }
 
-    override fun onStart() {
-        super.onStart()
+//    override fun onStart() {
+//        super.onStart()
 //        registerReceiver(networkChangeReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
-    }
+//    }
 
-    override fun onStop() {
-        super.onStop()
+//    override fun onStop() {
+//        super.onStop()
 //        unregisterReceiver(networkChangeReceiver)
-    }
+//    }
 
     override fun onDestroy() {
         super.onDestroy()

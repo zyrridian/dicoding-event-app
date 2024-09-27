@@ -4,19 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context=".ui.SplashActivity">
+    android:background="@color/white"
+    tools:context=".ui.activities.SplashActivity"
+    tools:ignore="Overdraw">
 
     <ImageView
         android:id="@+id/splash_logo"
         android:layout_width="72dp"
         android:layout_height="72dp"
-        app:tint="@color/black"
+        android:contentDescription="@string/dicoding_logo"
         android:src="@drawable/ic_dicoding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/black" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
