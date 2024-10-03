@@ -60,5 +60,6 @@ dependencies {
     implementation(libs.androidx.browser)
     implementation(libs.lottie)
     implementation(libs.shimmer)
+    implementation(libs.androidx.core.splashscreen)
 
 }

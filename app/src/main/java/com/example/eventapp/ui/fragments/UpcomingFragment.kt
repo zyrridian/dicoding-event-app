@@ -67,10 +67,20 @@ class UpcomingFragment : Fragment(), MainActivity.NetworkChangeListener {
             listEvents?.let {
                 verticalAdapter.setLoadingState(false)
                 verticalAdapter.submitList(it)
+                updateUI(false, it.isEmpty())
             }
         }
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+//            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            updateUI(isLoading, viewModel.listUpcoming.value.isNullOrEmpty())
+        }
+    }
+
+    private fun updateUI(isLoading: Boolean, isEmpty: Boolean) {
+        with(binding) {
+            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            noDataFoundLottie.visibility = if (isEmpty && !isLoading) View.VISIBLE else View.GONE
+            recyclerView.visibility = if (!isEmpty && !isLoading) View.VISIBLE else View.GONE
         }
     }
 
