@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-parcelize")
+    id("kotlin-android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -61,5 +63,14 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.shimmer)
     implementation(libs.androidx.core.splashscreen)
+
+    // Room
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.room.compiler)
+
+    // coroutine support
+    implementation(libs.androidx.lifecycle.viewmodel.ktx) // viewModelScope
+    implementation(libs.androidx.lifecycle.livedata.ktx) // liveData
+    implementation(libs.androidx.room.ktx)
 
 }

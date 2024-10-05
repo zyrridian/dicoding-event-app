@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_upcoming" />
 
     <fragment
+        android:id="@+id/navigation_favorite"
+        android:name="com.example.eventapp.ui.fragments.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
+
+    <fragment
         android:id="@+id/navigation_finished"
         android:name="com.example.eventapp.ui.fragments.FinishedFragment"
         android:label="fragment_finished"

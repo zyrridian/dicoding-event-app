@@ -7,15 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.eventapp.databinding.FragmentUpcomingBinding
-import com.example.eventapp.ui.viewmodels.MainViewModel
+import com.example.eventapp.databinding.FragmentFavoriteBinding
 import com.example.eventapp.ui.adapters.VerticalAdapter
-import com.example.eventapp.utils.Result
+import com.example.eventapp.ui.viewmodels.MainViewModel
 import com.example.eventapp.ui.viewmodels.ViewModelFactory
+import com.example.eventapp.utils.Result
 
-class UpcomingFragment : Fragment() {
+class FavoriteFragment : Fragment() {
 
-    private var _binding: FragmentUpcomingBinding? = null
+    private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewModel: MainViewModel
@@ -25,7 +25,7 @@ class UpcomingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentUpcomingBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoriteBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -46,29 +46,15 @@ class UpcomingFragment : Fragment() {
         // Initially, set loading state to show shimmer effect
         verticalAdapter.setLoadingState(true)
 
-        viewModel.getUpcomingEvents().observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Result.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                    verticalAdapter.setLoadingState(true)
-                }
-
-                is Result.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    verticalAdapter.setLoadingState(false)
-                    verticalAdapter.submitList(result.data)
-                }
-
-                is Result.Error -> {
-                    binding.progressBar.visibility = View.GONE
-//                    Toast.makeText(context, "An error occurred" + result.error, Toast.LENGTH_SHORT)
-//                        .show()
-                }
-            }
+        viewModel.getFavoriteEvents().observe(viewLifecycleOwner) { favoriteEvents ->
+            binding.progressBar.visibility = View.GONE
+            verticalAdapter.setLoadingState(false)
+            verticalAdapter.submitList(favoriteEvents)
         }
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
             adapter = verticalAdapter
         }
 
@@ -83,7 +69,7 @@ class UpcomingFragment : Fragment() {
                 val query = searchView.text.toString()
                 searchBar.setText(searchView.text)
                 searchView.hide()
-                viewModel.searchUpcomingEvents(query).observe(viewLifecycleOwner) { result ->
+                viewModel.searchFavoriteEvents(query).observe(viewLifecycleOwner) { result ->
                     when (result) {
                         is Result.Loading -> {
                             updateUI(isLoading = true, isEmpty = false)

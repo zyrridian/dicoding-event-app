@@ -1,24 +1,25 @@
 package com.example.eventapp.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.eventapp.ui.activities.MainActivity
 import com.example.eventapp.databinding.FragmentHomeBinding
 import com.example.eventapp.ui.adapters.HorizontalAdapter
-import com.example.eventapp.viewmodels.MainViewModel
+import com.example.eventapp.ui.viewmodels.MainViewModel
 import com.example.eventapp.ui.adapters.VerticalAdapter
+import com.example.eventapp.utils.Result
+import com.example.eventapp.ui.viewmodels.ViewModelFactory
 
-class HomeFragment : Fragment(), MainActivity.NetworkChangeListener {
+class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: MainViewModel by viewModels()
+
+    private lateinit var viewModel: MainViewModel
     private lateinit var verticalAdapter: VerticalAdapter
     private lateinit var horizontalAdapter: HorizontalAdapter
 
@@ -32,63 +33,82 @@ class HomeFragment : Fragment(), MainActivity.NetworkChangeListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupAllRecyclerView()
-        setupAllNetworkData()
-    }
 
-    private fun setupAllRecyclerView() {
-        // Upcoming events
-        horizontalAdapter = HorizontalAdapter(true)
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireActivity())
+        viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
+
+        horizontalAdapter = HorizontalAdapter() {
+            if (it.isFavorite == true) {
+                viewModel.deleteEvents(it)
+            } else {
+                viewModel.saveEvents(it)
+            }
+        }
+
+        verticalAdapter = VerticalAdapter {
+            if (it.isFavorite == true) {
+                viewModel.deleteEvents(it)
+            } else {
+                viewModel.saveEvents(it)
+            }
+        }
+
+        // Initially, set loading state to show shimmer effect
+        horizontalAdapter.setLoadingState(true)
+        verticalAdapter.setLoadingState(true)
+
+        viewModel.getUpcomingEvents().observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    horizontalAdapter.setLoadingState(true)
+                }
+
+                is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    horizontalAdapter.setLoadingState(false)
+                    horizontalAdapter.submitList(result.data.take(5))
+                }
+
+                is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
+//                    Toast.makeText(context, "An error occurred" + result.error, Toast.LENGTH_SHORT)
+//                        .show()
+                }
+            }
+        }
+
+        viewModel.getFinishedEvents().observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    verticalAdapter.setLoadingState(true)
+                }
+
+                is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    verticalAdapter.setLoadingState(false)
+                    verticalAdapter.submitList(result.data.take(5))
+                }
+
+                is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
+//                    Toast.makeText(context, "An error occurred" + result.error, Toast.LENGTH_SHORT)
+//                        .show()
+                }
+            }
+        }
+
         binding.upcomingRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = horizontalAdapter
         }
-        // Finished Events
-        verticalAdapter = VerticalAdapter()
-        binding.recyclerView.apply {
+
+        binding.finishedRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = verticalAdapter
         }
-    }
 
-    private fun setupAllNetworkData() {
-        viewModel.listUpcoming.observe(viewLifecycleOwner) { listEvents ->
-            listEvents?.let {
-                // Stop shimmer and submit the data
-                horizontalAdapter.setLoadingState(false)
-                horizontalAdapter.submitList(it.take(5))
-            }
-        }
-        viewModel.listFinished.observe(viewLifecycleOwner) { listEvents ->
-            listEvents?.let {
-                // Stop shimmer and submit the data
-                verticalAdapter.setLoadingState(false)
-                verticalAdapter.submitList(it.take(5))
-            }
-        }
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-            // Toggle shimmer effect
-//            upcomingAdapter.setLoadingState(isLoading)
-//            horizontalAdapter.setLoadingState(isLoading)
-        }
-//        viewModel.isEmpty.observe(viewLifecycleOwner, Observer { isEmpty ->
-//            horizontalAdapter.setLoadingState(isEmpty)
-//        })
-    }
-
-    override fun onNetworkChanged() {
-//        horizontalAdapter.setLoadingState(true)
-        viewModel.refreshData()
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try {
-            (context as? MainActivity)?.setOnDataRefreshListener(this)
-        } catch (e: ClassCastException) {
-            throw ClassCastException("$context must implement OnDataRefreshListener")
-        }
     }
 
     override fun onDestroyView() {

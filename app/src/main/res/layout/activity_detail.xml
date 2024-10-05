@@ -132,7 +132,19 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/favorite_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="104dp"
+        android:baselineAlignBottom="false"
+        android:contentDescription="@string/visit_webpage"
+        android:src="@drawable/ic_favorite_border"
+        app:layout_anchor="@id/appbar_layout"
+        app:layout_anchorGravity="bottom|end"
+        app:tint="@android:color/holo_red_dark" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/webpage_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"

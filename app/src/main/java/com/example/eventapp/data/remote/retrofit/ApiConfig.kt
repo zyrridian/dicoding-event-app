@@ -1,4 +1,4 @@
-package com.example.eventapp.data.retrofit
+package com.example.eventapp.data.remote.retrofit
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
