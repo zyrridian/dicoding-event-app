@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.eventapp.R
 import com.example.eventapp.databinding.ActivityMainBinding
@@ -49,13 +49,12 @@ class MainActivity : AppCompatActivity() {
 
         networkDialog = NetworkDialog(this)
         setupNetworkChangeReceiver()
-
-
     }
 
     private fun setupBottomNavigation() {
         val bottomNav: BottomNavigationView = binding.bottomNav
-        val navController = findNavController(R.id.nav_host_fragment_container)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
+        val navController = navHostFragment.navController
         bottomNav.setupWithNavController(navController)
     }
 
