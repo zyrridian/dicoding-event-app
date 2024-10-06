@@ -4,6 +4,7 @@
     <string name="title_upcoming">Upcoming</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_finished">Finished</string>
+    <string name="title_settings">Settings</string>
     <string name="thumbnail_event_image">Thumbnail Event Image</string>
     <string name="dicoding_logo">Dicoding Logo</string>
     <string name="close_button">Close Button</string>

@@ -68,9 +68,17 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     ksp(libs.room.compiler)
 
-    // coroutine support
+    // Coroutine support
     implementation(libs.androidx.lifecycle.viewmodel.ktx) // viewModelScope
     implementation(libs.androidx.lifecycle.livedata.ktx) // liveData
     implementation(libs.androidx.room.ktx)
+
+    // Settings
+    implementation(libs.androidx.preference)
+
+    // for dark mode
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 
 }

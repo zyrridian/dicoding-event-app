@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:iconSpaceReserved="false">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_dark_mode"
+        android:key="theme"
+        android:summary="Enable dark mode"
+        android:title="Dark Mode" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_notifications"
+        android:key="notification"
+        android:summary="Enable notification"
+        android:title="Daily Reminder" />
+
+</PreferenceScreen>

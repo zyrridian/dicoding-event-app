@@ -21,4 +21,9 @@
         android:icon="@drawable/ic_finished"
         android:title="@string/title_finished" />
 
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/title_settings" />
+
 </menu>

@@ -5,12 +5,19 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.eventapp.R
 import com.example.eventapp.databinding.ActivityMainBinding
+import com.example.eventapp.di.Injection
+import com.example.eventapp.ui.SettingPreferences
+import com.example.eventapp.ui.dataStore
 import com.example.eventapp.ui.dialogs.NetworkDialog
+import com.example.eventapp.ui.viewmodels.MainViewModel
+import com.example.eventapp.ui.viewmodels.ViewModelFactory
 import com.example.eventapp.utils.NetworkUtil
 import com.example.eventapp.utils.NetworkUtil.isNetworkAvailable
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -21,24 +28,43 @@ class MainActivity : AppCompatActivity() {
     private lateinit var networkChangeReceiver: NetworkUtil.NetworkChangeReceiver
     private var networkDialog: NetworkDialog? = null
     private var dataRefreshListener: NetworkChangeListener? = null
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen().apply {
-            // initialize something if you want, like viewmodel or something
-            // keepOnScreenCondition { }
+        installSplashScreen()
+
+        val eventRepository = Injection.provideRepository(this)
+        val settingPreferences = SettingPreferences.getInstance(dataStore)
+        val factory = ViewModelFactory(eventRepository, settingPreferences)
+        viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
+
+        // Observe theme setting and apply it
+        viewModel.getThemeSettings().observe(this) { isDarkModeActive ->
+            applyDarkMode(isDarkModeActive)
+            binding = ActivityMainBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+            setupBottomNavigation()
         }
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         networkDialog = NetworkDialog(this)
         setupNetworkChangeReceiver()
 
+
+    }
+
+    private fun setupBottomNavigation() {
         val bottomNav: BottomNavigationView = binding.bottomNav
         val navController = findNavController(R.id.nav_host_fragment_container)
-
         bottomNav.setupWithNavController(navController)
+    }
 
+    private fun applyDarkMode(isDarkMode: Boolean) {
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
     }
 
     private fun setupNetworkChangeReceiver() {

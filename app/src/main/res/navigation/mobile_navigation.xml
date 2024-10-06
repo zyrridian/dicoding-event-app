@@ -29,4 +29,10 @@
         android:label="fragment_finished"
         tools:layout="@layout/fragment_finished" />
 
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.eventapp.ui.fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+
 </navigation>
