@@ -1,9 +1,12 @@
 package com.example.eventapp.ui.activities
 
+import android.Manifest
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -30,22 +33,37 @@ class MainActivity : AppCompatActivity() {
     private var dataRefreshListener: NetworkChangeListener? = null
     private lateinit var viewModel: MainViewModel
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            Toast.makeText(this, "Notifications permission granted", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Notifications permission rejected", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
 
-        val eventRepository = Injection.provideRepository(this)
+        if (Build.VERSION.SDK_INT >= 33) {
+            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+
+        val eventRepository = Injection.provideRepository(this@MainActivity)
         val settingPreferences = SettingPreferences.getInstance(dataStore)
         val factory = ViewModelFactory(eventRepository, settingPreferences)
-        viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this@MainActivity, factory)[MainViewModel::class.java]
 
         // Observe theme setting and apply it
-        viewModel.getThemeSettings().observe(this) { isDarkModeActive ->
-            applyDarkMode(isDarkModeActive)
-            binding = ActivityMainBinding.inflate(layoutInflater)
-            setContentView(binding.root)
-            setupBottomNavigation()
+        viewModel.getThemeSettings().observe(this@MainActivity) {
+            applyDarkMode(it)
         }
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setupBottomNavigation()
 
         networkDialog = NetworkDialog(this)
         setupNetworkChangeReceiver()
@@ -53,7 +71,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBottomNavigation() {
         val bottomNav: BottomNavigationView = binding.bottomNav
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
         bottomNav.setupWithNavController(navController)
     }
@@ -101,9 +120,9 @@ class MainActivity : AppCompatActivity() {
         networkDialog?.dismissDialog()
     }
 
-    fun setOnDataRefreshListener(listener: NetworkChangeListener) {
-        dataRefreshListener = listener
-    }
+//    fun setOnDataRefreshListener(listener: NetworkChangeListener) {
+//        dataRefreshListener = listener
+//    }
 
     interface NetworkChangeListener {
         fun onNetworkChanged()

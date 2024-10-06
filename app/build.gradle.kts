@@ -81,4 +81,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
 
+    // Work manager
+    implementation(libs.androidx.work.runtime)
+
 }

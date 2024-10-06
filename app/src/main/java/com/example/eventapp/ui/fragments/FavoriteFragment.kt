@@ -50,6 +50,9 @@ class FavoriteFragment : Fragment() {
             binding.progressBar.visibility = View.GONE
             verticalAdapter.setLoadingState(false)
             verticalAdapter.submitList(favoriteEvents)
+            if (favoriteEvents.isEmpty()) {
+                updateUI(isLoading = false, isEmpty = true)
+            }
         }
 
         binding.recyclerView.apply {

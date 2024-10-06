@@ -21,69 +21,60 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private lateinit var viewModel: MainViewModel
+    private val customTabsIntent by lazy { CustomTabsIntent.Builder().build() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupToolbar()
+        setupViewModel()
+
+        val event = intent.getParcelableExtra<EventEntity>("EXTRA_EVENT")
+        event?.let { setupEventDetails(it) }
+    }
+
+    private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+    }
 
+    private fun setupViewModel() {
         val factory = ViewModelFactory.getInstance(this)
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
+    }
 
-        val event = intent.getParcelableExtra<EventEntity>("EXTRA_EVENT")
+    private fun setupEventDetails(event: EventEntity) {
+        binding.apply {
+            updateFavoriteIcon(event.isFavorite)
 
-        event?.let { e ->
-            binding.apply {
-                // Initial favorite Icon
-                updateFavoriteIcon(e.isFavorite)
-
-                titleTextView.text = event.name
-                ownerTextView.text = getString(R.string.organized_by, e.ownerName)
-                remainingQuotaTextView.text =
-                    getString(R.string.remaining_quota, e.quota.toString())
-                beginTimeTextView.text = formatDate(event.beginTime)
-                summaryTextView.text = event.summary
-                descriptionTextView.text =
-                    Html.fromHtml(event.description, Html.FROM_HTML_MODE_COMPACT)
-                descriptionTextView.movementMethod = LinkMovementMethod.getInstance()
-                Glide.with(this@DetailActivity)
-                    .load(event.mediaCover)
-                    .into(imageView)
-
-                favoriteFab.setOnClickListener {
-                    // Toggle the favorite state
-                    e.isFavorite = !(e.isFavorite ?: false)
-
-                    // Update the favorite icon
-                    updateFavoriteIcon(e.isFavorite)
-
-                    // Save or delete the event
-                    if (e.isFavorite == true) {
-                        viewModel.saveEvents(e)
-                    } else {
-                        viewModel.deleteEvents(e)
-                    }
-                }
-
-                // Visit webpage button
-                webpageFab.setOnClickListener {
-                    val builder = CustomTabsIntent.Builder()
-                    val customTabsIntent = builder.build()
-                    customTabsIntent.launchUrl(this@DetailActivity, Uri.parse(event.link))
-                }
+            titleTextView.text = event.name
+            ownerTextView.text = getString(R.string.organized_by, event.ownerName)
+            remainingQuotaTextView.text = getString(
+                R.string.remaining_quota,
+                event.quota?.minus(event.registrants ?: 0).toString()
+            )
+            beginTimeTextView.text = formatDate(event.beginTime)
+            summaryTextView.text = event.summary
+            descriptionTextView.apply {
+                text = Html.fromHtml(event.description, Html.FROM_HTML_MODE_COMPACT)
+                movementMethod = LinkMovementMethod.getInstance()
             }
+            Glide.with(this@DetailActivity).load(event.mediaCover).into(imageView)
+
+            favoriteFab.setOnClickListener { toggleFavorite(event) }
+            webpageFab.setOnClickListener { openWebPage(event.link) }
         }
     }
 
     private fun formatDate(dateString: String?): String? {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        val outputFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
-        val date = dateString?.let { inputFormat.parse(it) }
-        return date?.let { outputFormat.format(it) }
+        return dateString?.let {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+            inputFormat.parse(it)?.let { date -> outputFormat.format(date) }
+        }
     }
 
     private fun updateFavoriteIcon(isFavorite: Boolean?) {
@@ -92,15 +83,30 @@ class DetailActivity : AppCompatActivity() {
         )
     }
 
+    private fun toggleFavorite(event: EventEntity) {
+        event.isFavorite = !(event.isFavorite ?: false)
+        updateFavoriteIcon(event.isFavorite)
+
+        if (event.isFavorite == true) {
+            viewModel.saveEvents(event)
+        } else {
+            viewModel.deleteEvents(event)
+        }
+    }
+
+    private fun openWebPage(url: String?) {
+        url?.let {
+            customTabsIntent.launchUrl(this, Uri.parse(it))
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 true
             }
-
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 }

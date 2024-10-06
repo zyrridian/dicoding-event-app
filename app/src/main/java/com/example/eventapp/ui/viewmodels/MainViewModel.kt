@@ -15,18 +15,18 @@ class MainViewModel(
     private val settingPreferences: SettingPreferences
 ) : ViewModel() {
 
-    fun getUpcomingEvents() = eventRepository.getUpcomingEvents()
-    fun getFinishedEvents() = eventRepository.getFinishedEvents()
+    fun getUpcomingEvents() = eventRepository.getEvents(active = 1)
+    fun getFinishedEvents() = eventRepository.getEvents(active = 0)
     fun getFavoriteEvents() = eventRepository.getFavoriteEvents()
 
     fun searchUpcomingEvents(query: String): LiveData<Result<List<EventEntity>>> =
-        eventRepository.searchUpcomingEvents(query)
+        eventRepository.searchEvents(1, query)
 
     fun searchFinishedEvents(query: String): LiveData<Result<List<EventEntity>>> =
-        eventRepository.searchFinishedEvents(query)
+        eventRepository.searchEvents(0, query)
 
     fun searchFavoriteEvents(query: String): LiveData<Result<List<EventEntity>>> =
-        eventRepository.searchFavoriteEvents(query)
+        eventRepository.searchEvents(99, query)
 
     fun saveEvents(events: EventEntity) {
         viewModelScope.launch {
@@ -45,6 +45,14 @@ class MainViewModel(
     fun saveThemeSetting(isDarkModeActive: Boolean) {
         viewModelScope.launch {
             settingPreferences.saveThemeSetting(isDarkModeActive)
+        }
+    }
+
+    // Notification functions
+    fun getNotificationSettings() = settingPreferences.getNotificationSetting().asLiveData()
+    fun saveNotificationSetting(isNotificationActive: Boolean) {
+        viewModelScope.launch {
+            settingPreferences.saveNotificationSetting(isNotificationActive)
         }
     }
 

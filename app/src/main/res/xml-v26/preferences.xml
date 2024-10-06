@@ -2,6 +2,11 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:iconSpaceReserved="false">
 
+    <Preference
+        android:layout="@layout/appbar_settings"
+        android:selectable="false"
+        android:title="Settings" />
+
     <SwitchPreference
         android:defaultValue="false"
         android:icon="@drawable/ic_dark_mode"

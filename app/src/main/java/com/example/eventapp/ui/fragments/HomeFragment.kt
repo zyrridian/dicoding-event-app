@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
         val factory: ViewModelFactory = ViewModelFactory.getInstance(requireActivity())
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
-        horizontalAdapter = HorizontalAdapter() {
+        horizontalAdapter = HorizontalAdapter {
             if (it.isFavorite == true) {
                 viewModel.deleteEvents(it)
             } else {
