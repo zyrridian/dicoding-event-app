@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import androidx.work.Constraints
@@ -14,29 +14,22 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.example.eventapp.R
-import com.example.eventapp.di.Injection
 import com.example.eventapp.ui.MyWorker
-import com.example.eventapp.ui.SettingPreferences
-import com.example.eventapp.ui.dataStore
 import com.example.eventapp.ui.viewmodels.MainViewModel
 import com.example.eventapp.ui.viewmodels.ViewModelFactory
 import java.util.concurrent.TimeUnit
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
-    private lateinit var viewModel: MainViewModel
     private lateinit var workManager: WorkManager
     private lateinit var periodicWorkRequest: PeriodicWorkRequest
 
+    private val viewModel by viewModels<MainViewModel>{
+        ViewModelFactory.getInstance(requireActivity())
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
-
-        // Initialize viewmodel
-        val eventRepository = Injection.provideRepository(requireContext())
-        val preferences = SettingPreferences.getInstance(requireContext().dataStore)
-        val factory = ViewModelFactory(eventRepository, preferences)
-        viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

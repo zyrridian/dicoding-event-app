@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.eventapp.R
 import com.example.eventapp.data.local.entity.EventEntity
@@ -20,8 +20,11 @@ import java.util.Locale
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
-    private lateinit var viewModel: MainViewModel
+
     private val customTabsIntent by lazy { CustomTabsIntent.Builder().build() }
+    private val viewModel by viewModels<MainViewModel> {
+        ViewModelFactory.getInstance(application)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +32,6 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupToolbar()
-        setupViewModel()
 
         val event = intent.getParcelableExtra<EventEntity>("EXTRA_EVENT")
         event?.let { setupEventDetails(it) }
@@ -39,11 +41,6 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-    }
-
-    private fun setupViewModel() {
-        val factory = ViewModelFactory.getInstance(this)
-        viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
     }
 
     private fun setupEventDetails(event: EventEntity) {
@@ -106,6 +103,7 @@ class DetailActivity : AppCompatActivity() {
                 finish()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

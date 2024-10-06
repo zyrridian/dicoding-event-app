@@ -7,17 +7,14 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.eventapp.R
 import com.example.eventapp.databinding.ActivityMainBinding
-import com.example.eventapp.di.Injection
-import com.example.eventapp.ui.SettingPreferences
-import com.example.eventapp.ui.dataStore
 import com.example.eventapp.ui.dialogs.NetworkDialog
 import com.example.eventapp.ui.viewmodels.MainViewModel
 import com.example.eventapp.ui.viewmodels.ViewModelFactory
@@ -29,9 +26,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var networkChangeReceiver: NetworkUtil.NetworkChangeReceiver
+
     private var networkDialog: NetworkDialog? = null
     private var dataRefreshListener: NetworkChangeListener? = null
-    private lateinit var viewModel: MainViewModel
+    private val viewModel by viewModels<MainViewModel>{
+        ViewModelFactory.getInstance(this)
+    }
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -50,11 +50,6 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= 33) {
             requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
-
-        val eventRepository = Injection.provideRepository(this@MainActivity)
-        val settingPreferences = SettingPreferences.getInstance(dataStore)
-        val factory = ViewModelFactory(eventRepository, settingPreferences)
-        viewModel = ViewModelProvider(this@MainActivity, factory)[MainViewModel::class.java]
 
         // Observe theme setting and apply it
         viewModel.getThemeSettings().observe(this@MainActivity) {
