@@ -3,7 +3,8 @@
 Dicoding Event is an Android application developed as part of the Dicoding Belajar Fundamental Android course submission. The app follows the MVVM architecture and utilizes the Dicoding Event API to display upcoming and finished events. Users can favorite events, toggle dark mode, and manage notification settings. This app is designed with performance, best practices, and user experience in mind
 
 ## Screenshots
-![Frame 45](https://github.com/user-attachments/assets/55baf3d5-9686-439b-9267-fcfa048f631b)
+
+![eventapp-screenshot](https://github.com/user-attachments/assets/a26e6355-2478-4900-8a6e-1d6fa0ba6dd4)
 
 ## Table of Contents
 - [Features](https://github.com/zyrridian/dicoding-book-app/edit/master/README.md#features)
